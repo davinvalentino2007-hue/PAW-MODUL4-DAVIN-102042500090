@@ -20,8 +20,42 @@ class HomeController extends Controller
         // 5. Ambil list penerbit unik untuk opsi dropdown filter
         // 6. Return view 'home' dengan data buku dan list penerbit
 
-        $buku = Buku::paginate(8);
-        $listPenerbit = collect();
+        $query = Buku::query();
+
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('judul', 'like', "%{$search}%")
+                  ->orWhere('penulis', 'like', "%{$search}%")
+                  ->orWhere('penerbit', 'like', "%{$search}%");
+            });
+        }
+
+        if ($request->filled('penerbit')) {
+            $query->where('penerbit', $request->input('penerbit'));
+        }
+
+        if ($request->filled('status')) {
+            if ($request->input('status') === 'tersedia') {
+                $query->where('stok', '>', 0);
+            } elseif ($request->input('status') === 'habis') {
+                $query->where('stok', '<=', 0);
+            }
+        }
+
+        match ($request->input('sort')) {
+            'judul' => $query->orderBy('judul', 'asc'),
+            'tahun' => $query->orderBy('tahun_terbit', 'desc'),
+            'stok'  => $query->orderBy('stok', 'desc'),
+            default => $query->latest(),
+        };
+
+        $buku = $query->paginate(8)->withQueryString();
+        $listPenerbit = Buku::whereNotNull('penerbit')
+            ->where('penerbit', '!=', '')
+            ->distinct()
+            ->orderBy('penerbit')
+            ->pluck('penerbit');
 
         return view('home', compact('buku', 'listPenerbit'));
     }

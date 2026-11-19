@@ -112,8 +112,8 @@
                                     <span class="input-group-text bg-white border-end-0">
                                         <i class="bi bi-search text-muted"></i>
                                     </span>
-                                    <input type="text" name="search" class="form-control border-start-0" 
-                                           placeholder="Cari judul, penulis..." 
+                                    <input type="text" name="search" class="form-control border-start-0"
+                                           placeholder="Cari judul, penulis..."
                                            value="{{ request('search') }}">
                                 </div>
                             </div>
@@ -174,12 +174,12 @@
 
             @if(request('search') || request('penerbit') || request('status') || request('sort'))
                 <p class="text-muted mt-3 small">
-                    Menampilkan hasil filter: 
+                    Menampilkan hasil filter:
                     @if(request('search')) pencarian <strong>"{{ request('search') }}"</strong>@endif
-                    @if(request('penerbit')) &bull; penerbit <strong>"{{ request('penerbit') }}"</strong>@endif
-                    @if(request('status')) &bull; status <strong>"{{ request('status') === 'tersedia' ? 'Stok Tersedia' : 'Stok Habis' }}"</strong>@endif
-                    @if(request('sort')) &bull; urutan <strong>"{{ request('sort') }}"</strong>@endif
-                    &mdash; ditemukan <strong>{{ $buku->total() }}</strong> buku
+                    @if(request('penerbit')) • penerbit <strong>"{{ request('penerbit') }}"</strong>@endif
+                    @if(request('status')) • status <strong>"{{ request('status') === 'tersedia' ? 'Stok Tersedia' : 'Stok Habis' }}"</strong>@endif
+                    @if(request('sort')) • urutan <strong>"{{ request('sort') }}"</strong>@endif
+                    — ditemukan <strong>{{ $buku->total() }}</strong> buku
                 </p>
             @endif
         </div>
@@ -236,11 +236,10 @@
 
     <footer class="bg-white py-3 border-top text-center text-muted small mt-5">
         <div class="container">
-            <span>&copy; {{ date('Y') }} TelkomLibrary - Sistem Informasi Perpustakaan Kampus</span>
+            <span>© {{ date('Y') }} TelkomLibrary - Sistem Informasi Perpustakaan Kampus</span>
         </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
